@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CourierController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,3 +19,6 @@ Route::post('/orders/complete', [OrderController::class, 'delete'])->middleware(
 
 Route::get('/couriers', [CourierController::class, 'index']);
 Route::get('/orders', [OrderController::class, 'index']);
+
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout']);

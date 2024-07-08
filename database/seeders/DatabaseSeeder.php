@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'password' => 'api_password_test'
         ]);
 
         $this->call(CourierSeeder::class);
