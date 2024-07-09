@@ -21,4 +21,4 @@ Route::get('/couriers', [CourierController::class, 'index']);
 Route::get('/orders', [OrderController::class, 'index']);
 
 Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout']);
+Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'logout']);
