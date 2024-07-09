@@ -16,7 +16,7 @@ return new class extends Migration
             $table->double('weight');
             $table->integer('region');
             $table->json('delivery_hours');
-            $table->string('assign_time')->nullable();
+            $table->dateTimeTz('assign_time')->nullable();
             $table->timestamps();
 
             $table->foreignId('courier_id')->nullable()

@@ -14,8 +14,8 @@ Route::post('/couriers', [CourierController::class, 'store'])->middleware('auth:
 Route::get('/couriers/{id}', [CourierController::class, 'show'])->middleware('auth:sanctum');
 Route::patch('/couriers/{id}', [CourierController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/orders', [OrderController::class, 'store'])->middleware('auth:sanctum');
-Route::post('/orders/assign', [OrderController::class, 'update'])->middleware('auth:sanctum');
-Route::post('/orders/complete', [OrderController::class, 'delete'])->middleware('auth:sanctum');
+Route::post('/orders/assign', [OrderController::class, 'assign'])->middleware('auth:sanctum');
+Route::post('/orders/complete', [OrderController::class, 'complete'])->middleware('auth:sanctum');
 
 Route::get('/couriers', [CourierController::class, 'index']);
 Route::get('/orders', [OrderController::class, 'index']);

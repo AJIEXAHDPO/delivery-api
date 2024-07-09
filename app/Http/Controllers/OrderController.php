@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Http\Requests\CompleteOrderRequest;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\OrderAssignResource;
 use App\Models\Courier;
 use Illuminate\Http\Request;
 
@@ -29,6 +31,9 @@ class OrderController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * 
+     * @param \App\Http\Requests\StoreOrderRequest $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreOrderRequest $request)
     {
@@ -57,25 +62,33 @@ class OrderController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Assign the specified order a courier id.
+     * 
+     * @param \App\Http\Requests\UpdateOrderRequest $request
+     * @return \Illuminate\Http\Response
      */
     public function assign(UpdateOrderRequest $request)
     {
         $courier = Courier::find($request->courier_id);
-        $order = Order::find($request->courier_id);
+        $order = Order::where('completion_time', null)->find($request->order_id);
         if ($courier && $order) {
-            $order->update([
-                'assign_time' => date('m-d-Y h'),
-                'courier_id' => ''
-            ]);
+            $order->assign_time = now();
+            $order->courier_id = $request->courier_id;
+            $order->save();
+            return response()->json(new OrderAssignResource($order), 200);
         }
+        return response()->json(['message' => 'Bad request'], 400);
     }
-
+ 
     /**
-     * Remove the specified resource from storage.
+     * Mark the specified order as completed.
+     * 
+     * @param \App\Http\Requests\CompleteOrderRequest $request
+     * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function complete(CompleteOrderRequest $request)
     {
-        //
+        $order = Order::where('completion_time', null)->where('assign_time', 'not', null)->first();
+        $courier = Courier::where();
     }
 }
