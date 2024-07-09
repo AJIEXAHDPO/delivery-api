@@ -22,7 +22,7 @@ class StoreCourierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'data' => 'array',
+            'data' => 'required|array',
             'data.*.courier_type' => 'required|in:foot,bike,car',
             'data.*.regions' => 'required|array',
             'data.*.regions.*' => 'integer',

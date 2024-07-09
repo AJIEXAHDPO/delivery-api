@@ -6,6 +6,8 @@ use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
+use App\Models\Courier;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -30,7 +32,12 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-        //
+        $orders = [];
+        foreach ($request->data as $order) {
+            $order = Order::create($order);
+            array_push($orders, $order);
+        }
+        return response()->json(['orders' => OrderResource::collection($orders)], 201)->header('Content-Type', 'application/json');
     }
 
     /**
@@ -44,7 +51,7 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Order $order)
+    public function edit(Request $request)
     {
         //
     }
@@ -52,9 +59,16 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOrderRequest $request, Order $order)
+    public function assign(UpdateOrderRequest $request)
     {
-        //
+        $courier = Courier::find($request->courier_id);
+        $order = Order::find($request->courier_id);
+        if ($courier && $order) {
+            $order->update([
+                'assign_time' => date('m-d-Y h'),
+                'courier_id' => ''
+            ]);
+        }
     }
 
     /**
