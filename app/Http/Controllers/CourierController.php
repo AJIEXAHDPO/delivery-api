@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCourierRequest;
+use App\Http\Requests\UpdateCourierRequest;
 use App\Http\Resources\CourierResource;
 use App\Http\Resources\CourierWithIdResource;
 use App\Models\Courier;
@@ -27,32 +28,32 @@ class CourierController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new couriers.
+     * 
+     * @param \App\Http\Requests\StoreCourierRequest $request
      */
     public function store(StoreCourierRequest $request)
     {
         $couriers = [];
-        foreach ($request as $item) {
+        foreach ($request->data as $item) {
             $courier = Courier::create([
-                'courier_type' => $item->courier_type,
-                'region' => $item->region,
-                'working_hours' => $item->working_hours,
+                'courier_type' => $item['courier_type'],
+                'regions' => $item['regions'],
+                'working_hours' => $item['working_hours'],
             ]);
             array_push($couriers, $courier);
         }
-        return response()->json(['couriers'=> CourierWithIdResource::collection($couriers)], 201)->header('Content-Type', 'application/json');
+        return response()->json(['couriers' => CourierWithIdResource::collection($couriers)], 201)->header('Content-Type', 'application/json');
     }
 
     /**
-     * Display the specified resource.
+     * Display courier by id.
+     * 
+     * @param int $id
      */
     public function show(int $id)
     {
-        $result = Courier::find($id);
-        if ($result)
-            return response()->json(new CourierWithIdResource($result))->header('Content-Type', 'application/json');
-        else
-            return response()->json(['message' => 'Not Fond'], 404)->header('Content-Type', 'application/json');
+        return response()->json(new CourierWithIdResource(Courier::findOrFail($id)))->header('Content-Type', 'application/json');
     }
 
     /**
@@ -64,11 +65,18 @@ class CourierController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update courier by id.
+     * 
+     * @param \App\Http\Requests\UpdateCourierRequest $request
+     * 
+     * @param int $id
      */
-    public function update(Request $request, int $id)
+    public function update(UpdateCourierRequest $request, int $id)
     {
-        //
+        $courier = Courier::findOrFail($id);
+        $courier->update($request->all());
+
+        return new CourierWithIdResource($courier);
     }
 
     /**
