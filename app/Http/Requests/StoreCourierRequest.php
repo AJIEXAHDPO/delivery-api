@@ -11,7 +11,7 @@ class StoreCourierRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,10 +23,9 @@ class StoreCourierRequest extends FormRequest
     {
         return [
             'data' => 'array',
-            'data.*' => 'array:courier_type,region,working_hours',
             'data.*.courier_type' => 'required|in:foot,bike,car',
-            'data.*.region' => 'required|array',
-            'data.*.region.*' => 'integer',
+            'data.*.regions' => 'required|array',
+            'data.*.regions.*' => 'integer',
             'data.*.working_hours' => 'required|array',
             'data.*.working_hours.*' => 'string',
         ];

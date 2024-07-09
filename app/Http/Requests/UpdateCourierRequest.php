@@ -11,7 +11,7 @@ class UpdateCourierRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateCourierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'courier_type' => 'required|in:foot,bike,car',
+            'regions' => 'required|array',
+            'regions.*' => 'integer',
+            'working_hours' => 'required|array',
+            'working_hours.*' => 'string',
         ];
     }
 }
