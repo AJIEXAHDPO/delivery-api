@@ -18,8 +18,8 @@ class CourierFactory extends Factory
     {
         return [
             'courier_type' => fake()->randomElement(['foot', 'bike', 'car']),
-            'regions' => json_encode(fake()->randomElements(range(1, 21), 3)),
-            'working_hours' => json_encode(fake()->words(3)),
+            'regions' => fake()->randomElements(range(1, 21), 3),
+            'working_hours' => fake()->words(3),
         ];
     }
 }

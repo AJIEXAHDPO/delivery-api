@@ -17,8 +17,8 @@ class CourierWithIdResource extends JsonResource
         return [
             'id' => $this->id,
             'courier_type' => $this->courier_type,
-            'regions' => json_decode($this->regions),
-            'working_hours' => json_decode($this->working_hours),
+            'regions' => $this->regions,
+            'working_hours' => $this->working_hours,
         ];
     }
 }

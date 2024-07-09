@@ -19,7 +19,7 @@ class OrderFactory extends Factory
         return [
             'weight' => fake()->randomFloat(2, 0, 5000),
             'region' => fake()->randomNumber(2),
-            'delivery_hours' => json_encode(fake()->words(3)),
+            'delivery_hours' => fake()->words(3),
         ];
     }
 }

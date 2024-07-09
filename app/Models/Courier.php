@@ -15,5 +15,10 @@ class Courier extends Model
         'working_hours',
     ];
 
+    protected $casts = [
+        'regions' => 'json',
+        'working_hours' => 'json',
+    ];
+
     protected $guarded = ['id'];
 }

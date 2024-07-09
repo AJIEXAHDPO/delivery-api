@@ -18,7 +18,7 @@ class OrderResource extends JsonResource
             'id' => $this->id,
             'weight' => $this->weight,
             'region' => $this->region,
-            'delivery_hours' => json_decode($this->delivery_hours),
+            'delivery_hours' => $this->delivery_hours,
         ];
     }
 }
