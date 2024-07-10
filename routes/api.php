@@ -17,8 +17,8 @@ Route::post('/orders', [OrderController::class, 'store'])->middleware('auth:sanc
 Route::post('/orders/assign', [OrderController::class, 'assign'])->middleware('auth:sanctum');
 Route::post('/orders/complete', [OrderController::class, 'complete'])->middleware('auth:sanctum');
 
-Route::get('/couriers', [CourierController::class, 'index']);
-Route::get('/orders', [OrderController::class, 'index']);
+//Route::get('/couriers', [CourierController::class, 'index']);
+//Route::get('/orders', [OrderController::class, 'index']);
 
 Route::post('/login', [LoginController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'logout']);
