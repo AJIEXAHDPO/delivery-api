@@ -70,16 +70,16 @@ class OrderController extends Controller
     public function assign(UpdateOrderRequest $request)
     {
         $courier = Courier::find($request->courier_id);
-        $order = Order::where('completion_time', null)->find($request->order_id);
+        $order = Order::where('complete_time', null)->find($request->order_id);
         if ($courier && $order) {
             $order->assign_time = now();
             $order->courier_id = $request->courier_id;
             $order->save();
             return response()->json(new OrderAssignResource($order), 200);
         }
-        return response()->json(['message' => 'Bad request'], 400);
+        return response()->json(['message' => 'Order not found or already completed'], 404);
     }
- 
+
     /**
      * Mark the specified order as completed.
      * 
@@ -88,7 +88,19 @@ class OrderController extends Controller
      */
     public function complete(CompleteOrderRequest $request)
     {
-        $order = Order::where('completion_time', null)->where('assign_time', 'not', null)->first();
-        $courier = Courier::where();
+        $courier = Courier::find($request->courier_id);
+        $order = Order::where('complete_time', null)->find($request->order_id);
+        if ($courier && $order) {
+            if ($request->courier_id !== $order->courier_id || !$order->assign_time)
+                return response()->json(['message' => 'Courier Ids doesn\'t matches or order is not assigned'], 422);
+
+            if ($request->complete_time < $order->assign_time)
+                return response()->json(['message' => 'Invalid complete time'], 422);
+
+            $order->complete_time = $request->complete_time;
+            $order->save();
+            return response()->json(['order_id' => $order->id], 200);
+        }
+        return response()->json(['message' => 'Order not found or already completed'], 404);
     }
 }
