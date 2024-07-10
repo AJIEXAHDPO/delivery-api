@@ -11,7 +11,7 @@ class CompleteOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,8 +22,9 @@ class CompleteOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'courier_id' => 'required|integer',
             'order_id' => 'required|integer',
-            'courier_id' => 'required|integer'
+            'complete_time' => 'required|date'
         ];
     }
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('region');
             $table->json('delivery_hours');
             $table->dateTimeTz('assign_time')->nullable();
+            $table->dateTimeTz('complete_time')->nullable();
             $table->timestamps();
 
             $table->foreignId('courier_id')->nullable()

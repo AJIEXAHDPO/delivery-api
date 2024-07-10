@@ -17,6 +17,8 @@ class Order extends Model
 
     protected $casts = [
         'delivery_hours' => 'json',
+        'assign_time' =>'datetime:Y-m-d\TH:i:s.v\Z',
+        'complete_time' =>'datetime:Y-m-d\TH:i:s.v\Z',
     ];
 
     protected $guarded = ['id'];
