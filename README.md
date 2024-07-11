@@ -1,5 +1,5 @@
-## About 
-Api for delivery service to create and orders and assign it to the couriers. 
+# Delivery API 
+Simple and secure Api for online delivery service to make an orders. 
 Powered by Laravel framework.
 ## Functional 
 Api supports bearer token authentication. To log in use `email` and `password` to get a new token.
@@ -16,7 +16,7 @@ For testing api by the Swagger UI open `/api/documentation`.<br />
 Change `api-docs.json` in search bar to `api-test.yaml`
 ## Install
 Clone repository on your device.
-into the project folder `cd delivery -api`
+into the project folder `cd delivery-api`
 Run docker container
 ```sh
 docker-compose up --build -d
