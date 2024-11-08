@@ -31,7 +31,7 @@ jobs:
     - name: seeding & migrating db
       env:
         DB_CONNECTION: pgsql
-        DB_HOST: postgres
+        DB_HOST: localhost
         DB_PORT: 5432
         DB_DATABASE: api-test
         DB_USERNAME: postgres
