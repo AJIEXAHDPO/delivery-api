@@ -28,8 +28,16 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
-    - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
+    - name: seeding & migrating db
       env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
+        DB_CONNECTION: pgsql
+        DB_HOST: postgres
+        DB_PORT: 5432
+        DB_DATABASE: api-test
+        DB_USERNAME: postgres
+        DB_PASSWORD: postgre
+      run: |
+        php artisan migrate
+        php artisan db:seed
+    - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
       run: php artisan test
