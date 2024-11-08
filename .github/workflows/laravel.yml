@@ -8,8 +8,23 @@ on:
 
 jobs:
   laravel-tests:
-
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: postgres        
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
@@ -35,7 +50,7 @@ jobs:
         DB_PORT: 5432
         DB_DATABASE: api-test
         DB_USERNAME: postgres
-        DB_PASSWORD: postgre
+        DB_PASSWORD: postgres
       run: |
         php artisan migrate
         php artisan db:seed
